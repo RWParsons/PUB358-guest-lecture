@@ -15,32 +15,288 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## R Markdown
+```{css, echo=FALSE}
+.imgcenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+.remark-container {
+  height: 600px!important;
+  width: 900px!important;
+}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+.remark-code {
+  font-size: 80%
+}
 
----
-## Slide with Bullets
-
-- Bullet 1
-- Bullet 2
-- Bullet 3
-
----
-
-## Slide with R Output
-
-```{r cars, echo = TRUE}
-summary(cars)
+iframebody {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin:0;
+  overflow: hidden;
+  padding: 0;
+}
+	
+iframe {
+  height: 100vh;
+  width: 100vw;
+}
 ```
 
+
 ---
 
-## Slide with Plot
+## What is a CDSS?
 
-```{r pressure}
-plot(pressure)
+### ???
+
+--
+
+.pull-left[
+- System that support clinical decision
+- Reduces large amount of information into something digestible
+- (sometimes) Communicate that information to the clinician in a way that improves decision making
+]
+
+.pull-right[
+![cdss-1](www/cdss-1.png)
+]
+
+---
+
+## What is a CDSS?
+
+#### annalise.ai's chest x-ray decision support
+
+- Checks for 124 possible outcomes
+- Communicates risk to user (radiologist)
+- Highlights areas of image that are influential to risk estimate
+
+![annalise-cxr](www/annalise-cxr.gif)
+
+---
+
+## What is a clinical prediction model?
+
+#### Diagnostic
+
+![diagnostic-test](www/diagnostic-test-covid.png)
+
+---
+
+## What is a clinical prediction model?
+
+#### Prognostic
+
+.pull-left[
+![prognostic-test](www/prognostic-crystal-ball.jpg)
+]
+--
+.pull-right[
+![prognostic-test](www/prognostic-crystal-ball-mi.jpg)
+]
+
+---
+
+## How should outputs from a clinical prediction model be shown?
+
+<center>
+```{r, fig.align='center', echo=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  
+  node [shape = oval, fontname = Cabin]        
+  n1 [label = 'Patient data']
+  n2 [label = 'Prediction model']
+  n3 [label =  '???', color='red']
+  n4 [label = 'PROFIT']
+  
+  # edge definitions with the node IDs
+  n1 -> n2 -> n3 -> n4
+  }",
+  height = 450)
 ```
+</center>
+
+---
+
+## How should outputs from a clinical prediction model be shown?
+
+
+*your thoughts?*
+
+--
+
+- Predicted probabilities
+
+--
+
+- Predicted classes (cancer vs no-cancer)
+
+--
+
+- 🚦 Traffic lights or other (ordinal) larger scale
+
+
+---
+
+## Cutpoints
+
+<center>
+```{r, fig.align='center', echo=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  
+  node [shape = oval, fontname = Cabin]        
+  n1 [label = 'Predicted probabilities (between 0 and 1)']
+  n2 [label = 'Cutpoint']
+  n3 [label =  'Predicted classes (0 or 1)']
+  
+  # edge definitions with the node IDs
+  n1 -> n2 -> n3
+  }",
+  height = 450)
+```
+</center>
+
+---
+
+## Cutpoints
+.imgcenter[
+<img src = "www/sand-2.png", height = "400px">
+]
+
+---
+
+## Cutpoints
+.imgcenter[
+<img src = "www/sand-3.png", height = "400px">
+]
+
+---
+
+## Cutpoints
+
+<iframebody>
+  <iframe src="https://aushsi.shinyapps.io/cost-effective-cpms-app/"  frameborder="0" </iframe>
+</iframebody>
+
+---
+
+## Optimising cutpoints for clinical decisions
+
+<center>
+```{r, fig.align='center', echo=FALSE}
+DiagrammeR::grViz("digraph {
+  graph [layout = dot, rankdir = TB]
+  
+  node [shape = oval, fontname = Cabin]        
+  n1 [label = 'Predicted probabilities (between 0 and 1)']
+  n2 [label = 'Cutpoint']
+  n3 [label =  'Predicted classes (0 or 1)']
+  n4 [label =  'Patient recieves intervention']
+  n5 [label =  'Patient recieves no intervention']
+  
+  # edge definitions with the node IDs
+  n1 -> n2 -> n3
+  n3 -> {n4, n5}
+  }",
+  height = 450)
+```
+</center>
+
+
+---
+
+## Cutpoint example
+
+#### CDSS for inpatient fall prevention
+
+- Outcome: inpatient fall
+- Treatment: patient education
+- Cost of outcome: $2000 (considers quality-adjusted life years lost and additional treatment costs)
+- Cost of treatment: $50
+- Treatment effect: 30% reduction in risk
+
+--
+
+```{r}
+library(predictNMB)
+get_nmb <- get_nmb_sampler(
+  outcome_cost = 2000, 
+  high_risk_group_treatment_effect = 0.3, 
+  high_risk_group_treatment_cost = 50,
+  low_risk_group_treatment_effect = 0,
+  low_risk_group_treatment_cost = 0
+)
+get_nmb()
+```
+--
+
+- Rate of falls in acute care hospital: 3%
+- Prediction model performance: 0.75 AUC
+
+---
+
+<iframebody>
+  <iframe src="https://aushsi.shinyapps.io/cost-effective-cpms-app/"  frameborder="0" </iframe>
+</iframebody>
+
+---
+
+## How do we know whether a CDSS will be useful?
+
+(currently) Evaluate in a clinical trial and perform a health-economic evaluation
+
+(soon) Simulate the model, intervention(s), patients and decisions based on the literature
+
+---
+
+## predictNMB <a href='https://rwparsons.github.io/predictNMB/'><img src='www/hex.png' align="right" height="139" /></a>
+
+- Makes performing this simulation easy
+- Allows sensitivity analyses across possible values for prevalence, model performance, treatment effectiveness/costs
+
+---
+
+## predictNMB <a href='https://rwparsons.github.io/predictNMB/'><img src='www/hex.png' align="right" height="139" /></a>
+
+#### Inpatient falls example
+
+```{r}
+sim_object <- readRDS("input/sim_object.rds")
+```
+
+
+.pull-left[
+````r
+cl <- parallel::makeCluster(parallel::detectCores())
+
+sim_object <- screen_simulation_inputs(
+  n_sims=500, n_valid=10000, sim_auc = seq(0.6, 0.9, 0.05),
+  cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+  fx_nmb_training = get_nmb, fx_nmb_evaluation = get_nmb,
+  event_rate = 0.03,
+  cl = cl,
+  show_progress = TRUE
+)
+plot(sim_object)
+````
+]
+
+.pull-right[
+```{r, echo=FALSE, message=FALSE}
+plot(sim_object)
+```
+]
+
+
+
+
 

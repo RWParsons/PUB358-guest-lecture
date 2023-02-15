@@ -8,6 +8,10 @@
     <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+    <script src="libs/viz-1.8.2/viz.js"></script>
+    <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding-1.0.9/grViz.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -31,43 +35,240 @@ class: center, middle, inverse, title-slide
 
 
 
-## R Markdown
+&lt;style type="text/css"&gt;
+.imgcenter {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;http://rmarkdown.rstudio.com&gt;.
+.remark-container {
+  height: 600px!important;
+  width: 900px!important;
+}
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+.remark-code {
+  font-size: 80%
+}
+
+iframebody {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin:0;
+  overflow: hidden;
+  padding: 0;
+}
+	
+iframe {
+  height: 100vh;
+  width: 100vw;
+}
+&lt;/style&gt;
+
 
 ---
-## Slide with Bullets
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+## What is a CDSS?
 
----
+### ???
 
-## Slide with R Output
+--
 
+.pull-left[
+- System that support clinical decision
+- Reduces large amount of information into something digestible
+- (sometimes) Communicate that information to the clinician in a way that improves decision making
+]
 
-```r
-summary(cars)
-```
-
-```
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-```
+.pull-right[
+![cdss-1](www/cdss-1.png)
+]
 
 ---
 
-## Slide with Plot
+## What is a CDSS?
 
-![](index_files/figure-html/pressure-1.png)&lt;!-- --&gt;
+#### annalise.ai's chest x-ray decision support
+
+- Checks for 124 possible outcomes
+- Communicates risk to user (radiologist)
+- Highlights areas of image that are influential to risk estimate
+
+![annalise-cxr](www/annalise-cxr.gif)
+
+---
+
+## What is a clinical prediction model?
+
+#### Diagnostic
+
+![diagnostic-test](www/diagnostic-test-covid.png)
+
+---
+
+## What is a clinical prediction model?
+
+#### Prognostic
+
+.pull-left[
+![prognostic-test](www/prognostic-crystal-ball.jpg)
+]
+--
+.pull-right[
+![prognostic-test](www/prognostic-crystal-ball-mi.jpg)
+]
+
+---
+
+## How should outputs from a clinical prediction model be shown?
+
+&lt;center&gt;
+<div id="htmlwidget-f6ae5ed1076c020c9721" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f6ae5ed1076c020c9721">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Patient data\"]\n  n2 [label = \"Prediction model\"]\n  n3 [label =  \"???\", color=\"red\"]\n  n4 [label = \"PROFIT\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3 -> n4\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+&lt;/center&gt;
+
+---
+
+## How should outputs from a clinical prediction model be shown?
+
+
+*your thoughts?*
+
+--
+
+- Predicted probabilities
+
+--
+
+- Predicted classes (cancer vs no-cancer)
+
+--
+
+- 🚦 Traffic lights or other (ordinal) larger scale
+
+
+---
+
+## Cutpoints
+
+&lt;center&gt;
+<div id="htmlwidget-bbf634487c1c2181dd69" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bbf634487c1c2181dd69">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+&lt;/center&gt;
+
+---
+
+## Cutpoints
+.imgcenter[
+&lt;img src = "www/sand-2.png", height = "400px"&gt;
+]
+
+---
+
+## Cutpoints
+.imgcenter[
+&lt;img src = "www/sand-3.png", height = "400px"&gt;
+]
+
+---
+
+## Cutpoints
+
+&lt;iframebody&gt;
+  &lt;iframe src="https://aushsi.shinyapps.io/cost-effective-cpms-app/"  frameborder="0" &lt;/iframe&gt;
+&lt;/iframebody&gt;
+
+---
+
+## Optimising cutpoints for clinical decisions
+
+&lt;center&gt;
+<div id="htmlwidget-8df9f7f84fde640cd797" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8df9f7f84fde640cd797">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  n4 [label =  \"Patient recieves intervention\"]\n  n5 [label =  \"Patient recieves no intervention\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  n3 -> {n4, n5}\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+&lt;/center&gt;
+
+
+---
+
+## Cutpoint example
+
+#### CDSS for inpatient fall prevention
+
+- Outcome: inpatient fall
+- Treatment: patient education
+- Cost of outcome: $2000 (considers quality-adjusted life years lost and additional treatment costs)
+- Cost of treatment: $50
+- Treatment effect: 30% reduction in risk
+
+--
+
+
+```
+##    TP    FP    TN    FN 
+## -1450   -50     0 -2000
+```
+--
+
+- Rate of falls in acute care hospital: 3%
+- Prediction model performance: 0.75 AUC
+
+---
+
+&lt;iframebody&gt;
+  &lt;iframe src="https://aushsi.shinyapps.io/cost-effective-cpms-app/"  frameborder="0" &lt;/iframe&gt;
+&lt;/iframebody&gt;
+
+---
+
+## How do we know whether a CDSS will be useful?
+
+(currently) Evaluate in a clinical trial and perform a health-economic evaluation
+
+(soon) Simulate the model, intervention(s), patients and decisions based on the literature
+
+---
+
+## predictNMB &lt;a href='https://rwparsons.github.io/predictNMB/'&gt;&lt;img src='www/hex.png' align="right" height="139" /&gt;&lt;/a&gt;
+
+- Makes performing this simulation easy
+- Allows sensitivity analyses across possible values for prevalence, model performance, treatment effectiveness/costs
+
+---
+
+## predictNMB &lt;a href='https://rwparsons.github.io/predictNMB/'&gt;&lt;img src='www/hex.png' align="right" height="139" /&gt;&lt;/a&gt;
+
+#### Inpatient falls example
+
+
+
+
+.pull-left[
+````r
+cl &lt;- parallel::makeCluster(parallel::detectCores())
+
+sim_object &lt;- screen_simulation_inputs(
+  n_sims=500, n_valid=10000, sim_auc = seq(0.6, 0.9, 0.05),
+  cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+  fx_nmb_training = get_nmb, fx_nmb_evaluation = get_nmb,
+  event_rate = 0.03,
+  cl = cl,
+  show_progress = TRUE
+)
+plot(sim_object)
+````
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+]
+
+
+
+
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
