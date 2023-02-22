@@ -4,8 +4,8 @@
     <title>Clinical Decision Support Systems</title>
     <meta charset="utf-8" />
     <meta name="author" content="Rex Parsons" />
-    <meta name="date" content="2023-02-15" />
-    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <meta name="date" content="2023-02-22" />
+    <script src="libs/header-attrs-2.20/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
     <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
@@ -27,7 +27,7 @@ class: center, middle, inverse, title-slide
 ### Rex Parsons
 ]
 .date[
-### 2023-02-15
+### 2023-02-22
 ]
 
 ---
@@ -67,21 +67,22 @@ iframe {
   height: 100vh;
   width: 100vw;
 }
+
 &lt;/style&gt;
 
 
----
-
 ## What is a CDSS?
+
+--
 
 ### ???
 
 --
 
 .pull-left[
-- System that support clinical decision
+- System that support/improves clinical decisions
 - Reduces large amount of information into something digestible
-- (sometimes) Communicate that information to the clinician in a way that improves decision making
+- Communicate that information to the clinician in a way that improves decision making (ideally)
 ]
 
 .pull-right[
@@ -94,11 +95,43 @@ iframe {
 
 #### annalise.ai's chest x-ray decision support
 
-- Checks for 124 possible outcomes
-- Communicates risk to user (radiologist)
+.pull-left[
+- Assesses chest x-ray for 124 possible outcomes
+- Ranks outcomes and communicates risk to user
 - Highlights areas of image that are influential to risk estimate
+]
 
-![annalise-cxr](www/annalise-cxr.gif)
+.pull-right[
+- clinical prediction model
+- reduces/prioritises information
+- model interpretation for better decision (?)
+]
+
+&lt;p style="text-align:center;"&gt;
+  &lt;img src="www/annalise-cxr.gif" height="60%" width = "60%"&gt;
+&lt;/p&gt;
+
+---
+
+## What is a CDSS?
+
+#### annalise.ai's chest x-ray decision support
+
+.pull-left[
+- **Assesses chest x-ray for 124 possible outcomes**
+- **Ranks outcomes and communicates risk to user**
+- Highlights areas of image that are influential to risk estimate
+]
+
+.pull-right[
+- **clinical prediction model**
+- **reduces/prioritises information**
+- model interpretation for better decision (?)
+]
+
+&lt;p style="text-align:center;"&gt;
+  &lt;img src="www/annalise-cxr.gif" height="60%" width = "60%"&gt;
+&lt;/p&gt;
 
 ---
 
@@ -127,9 +160,29 @@ iframe {
 ## How should outputs from a clinical prediction model be shown?
 
 &lt;center&gt;
-<div id="htmlwidget-f6ae5ed1076c020c9721" style="width:504px;height:450px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f6ae5ed1076c020c9721">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Patient data\"]\n  n2 [label = \"Prediction model\"]\n  n3 [label =  \"???\", color=\"red\"]\n  n4 [label = \"PROFIT\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3 -> n4\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d67e21970a09eb4272da" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d67e21970a09eb4272da">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Patient data\"]\n  n2 [label = \"Prediction model\"]\n  n3 [label =  \"???\", color=\"red\"]\n  n4 [label = \"PROFIT\n(better value care)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3 -> n4\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 &lt;/center&gt;
+
+---
+
+#### annalise.ai's chest x-ray decision support
+
+.pull-left[
+- Assesses chest x-ray for 124 possible outcomes
+- **Ranks outcomes and communicates risk to user**
+- Highlights areas of image that are influential to risk estimate
+]
+
+.pull-right[
+- clinical prediction model
+- **reduces/prioritises information**
+- model interpretation for better decision (?)
+]
+
+&lt;p style="text-align:center;"&gt;
+  &lt;img src="www/annalise-cxr.gif" height="60%" width = "60%"&gt;
+&lt;/p&gt;
 
 ---
 
@@ -156,8 +209,8 @@ iframe {
 ## Cutpoints
 
 &lt;center&gt;
-<div id="htmlwidget-bbf634487c1c2181dd69" style="width:504px;height:450px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bbf634487c1c2181dd69">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-713e9a23be6300cf9330" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-713e9a23be6300cf9330">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 &lt;/center&gt;
 
 ---
@@ -187,8 +240,8 @@ iframe {
 ## Optimising cutpoints for clinical decisions
 
 &lt;center&gt;
-<div id="htmlwidget-8df9f7f84fde640cd797" style="width:504px;height:450px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8df9f7f84fde640cd797">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  n4 [label =  \"Patient recieves intervention\"]\n  n5 [label =  \"Patient recieves no intervention\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  n3 -> {n4, n5}\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-eac82af5fa34e27d8227" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-eac82af5fa34e27d8227">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  n4 [label =  \"(Predicted class = 1)\nPatient recieves intervention\"]\n  n5 [label =  \"(Predicted class = 0)\nPatient recieves no intervention\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  n3 -> {n4, n5}\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 &lt;/center&gt;
 
 
@@ -211,6 +264,7 @@ iframe {
 ##    TP    FP    TN    FN 
 ## -1450   -50     0 -2000
 ```
+
 --
 
 - Rate of falls in acute care hospital: 3%
@@ -246,28 +300,67 @@ iframe {
 
 
 
-.pull-left[
 ````r
-cl &lt;- parallel::makeCluster(parallel::detectCores())
+library(parallel)
+cl &lt;- makeCluster(detectCores())
 
 sim_object &lt;- screen_simulation_inputs(
-  n_sims=500, n_valid=10000, sim_auc = seq(0.6, 0.9, 0.05),
+  n_sims=500, n_valid=10000, 
+  sim_auc = seq(0.6, 0.9, 0.05),
   cutpoint_methods = c("all", "none", "youden", "value_optimising"),
-  fx_nmb_training = get_nmb, fx_nmb_evaluation = get_nmb,
+  fx_nmb_training = get_nmb, 
+  fx_nmb_evaluation = get_nmb,
   event_rate = 0.03,
-  cl = cl,
-  show_progress = TRUE
+  cl = cl
 )
 plot(sim_object)
 ````
-]
 
-.pull-right[
-![](index_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
-]
+---
+&lt;p style="text-align:center;"&gt;
+  &lt;img src = "www/sim_screen.jpeg"&gt;
+&lt;/p&gt;
+---
+
+## Summary
+
+- CDSS should support clinical decisions to be better (&amp;uarr; value care)
+
+--
+
+- Objective of value-based care should to be integrated into clinical prediction model development (cutpoint selection)
+
+--
+
+- CDSS which improve value-based are rare
+
+--
+
+- Prioritise clinical prediction model development
+
+---
+
+## Thank you
+
+&lt;img src="www/twitter-logo.png" height = "4%" width = "4%"&gt;
+@Rex_Parsons8
+
+&lt;img src="www/github-logo.png" height = "4%" width = "4%"&gt;
+@RWParsons
+
+&lt;img src="www/website-icon.png" height = "4%" width = "4%"&gt;
+[rwparsons.github.io/](https://rwparsons.github.io/)
 
 
+&lt;img src="www/shiny_hex.png" height = "4%" width = "4%"&gt;
+[aushsi.shinyapps.io/cost-effective-cpms-app/](https://aushsi.shinyapps.io/cost-effective-cpms-app/)
 
+&lt;img src="www/hex.png" height = "4%" width = "4%"&gt;
+[rwparsons.github.io/predictNMB/](https://rwparsons.github.io/predictNMB/)
+
+Cost-effective cutpoints [github.com/RWParsons/cost-effective-cpms](https://github.com/RWParsons/cost-effective-cpms)
+
+slides [rwparsons.github.io/PUB358-guest-lecture/](https://rwparsons.github.io/PUB358-guest-lecture/)
 
 
     </textarea>

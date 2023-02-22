@@ -47,21 +47,22 @@ iframe {
   height: 100vh;
   width: 100vw;
 }
+
 ```
 
 
----
-
 ## What is a CDSS?
+
+--
 
 ### ???
 
 --
 
 .pull-left[
-- System that support clinical decision
+- System that support/improves clinical decisions
 - Reduces large amount of information into something digestible
-- (sometimes) Communicate that information to the clinician in a way that improves decision making
+- Communicate that information to the clinician in a way that improves decision making (ideally)
 ]
 
 .pull-right[
@@ -74,11 +75,43 @@ iframe {
 
 #### annalise.ai's chest x-ray decision support
 
-- Checks for 124 possible outcomes
-- Communicates risk to user (radiologist)
+.pull-left[
+- Assesses chest x-ray for 124 possible outcomes
+- Ranks outcomes and communicates risk to user
 - Highlights areas of image that are influential to risk estimate
+]
 
-![annalise-cxr](www/annalise-cxr.gif)
+.pull-right[
+- clinical prediction model
+- reduces/prioritises information
+- model interpretation for better decision (?)
+]
+
+<p style="text-align:center;">
+  <img src="www/annalise-cxr.gif" height="60%" width = "60%">
+</p>
+
+---
+
+## What is a CDSS?
+
+#### annalise.ai's chest x-ray decision support
+
+.pull-left[
+- **Assesses chest x-ray for 124 possible outcomes**
+- **Ranks outcomes and communicates risk to user**
+- Highlights areas of image that are influential to risk estimate
+]
+
+.pull-right[
+- **clinical prediction model**
+- **reduces/prioritises information**
+- model interpretation for better decision (?)
+]
+
+<p style="text-align:center;">
+  <img src="www/annalise-cxr.gif" height="60%" width = "60%">
+</p>
 
 ---
 
@@ -115,7 +148,7 @@ DiagrammeR::grViz("digraph {
   n1 [label = 'Patient data']
   n2 [label = 'Prediction model']
   n3 [label =  '???', color='red']
-  n4 [label = 'PROFIT']
+  n4 [label = 'PROFIT\n(better value care)']
   
   # edge definitions with the node IDs
   n1 -> n2 -> n3 -> n4
@@ -123,6 +156,26 @@ DiagrammeR::grViz("digraph {
   height = 450)
 ```
 </center>
+
+---
+
+#### annalise.ai's chest x-ray decision support
+
+.pull-left[
+- Assesses chest x-ray for 124 possible outcomes
+- **Ranks outcomes and communicates risk to user**
+- Highlights areas of image that are influential to risk estimate
+]
+
+.pull-right[
+- clinical prediction model
+- **reduces/prioritises information**
+- model interpretation for better decision (?)
+]
+
+<p style="text-align:center;">
+  <img src="www/annalise-cxr.gif" height="60%" width = "60%">
+</p>
 
 ---
 
@@ -200,8 +253,8 @@ DiagrammeR::grViz("digraph {
   n1 [label = 'Predicted probabilities (between 0 and 1)']
   n2 [label = 'Cutpoint']
   n3 [label =  'Predicted classes (0 or 1)']
-  n4 [label =  'Patient recieves intervention']
-  n5 [label =  'Patient recieves no intervention']
+  n4 [label =  '(Predicted class = 1)\nPatient recieves intervention']
+  n5 [label =  '(Predicted class = 0)\nPatient recieves no intervention']
   
   # edge definitions with the node IDs
   n1 -> n2 -> n3
@@ -237,6 +290,7 @@ get_nmb <- get_nmb_sampler(
 )
 get_nmb()
 ```
+
 --
 
 - Rate of falls in acute care hospital: 3%
@@ -269,34 +323,73 @@ get_nmb()
 
 #### Inpatient falls example
 
-```{r}
-sim_object <- readRDS("input/sim_object.rds")
+```{r, echo=F}
+# sim_object <- readRDS("input/sim_object.rds")
+# plot(sim_object, dodge_width = 0.01)
+# ggplot2::ggsave("www/sim_screen.jpeg", height = 5, width = 8, dpi = 1200)
 ```
 
 
-.pull-left[
 ````r
-cl <- parallel::makeCluster(parallel::detectCores())
+library(parallel)
+cl <- makeCluster(detectCores())
 
 sim_object <- screen_simulation_inputs(
-  n_sims=500, n_valid=10000, sim_auc = seq(0.6, 0.9, 0.05),
+  n_sims=500, n_valid=10000, 
+  sim_auc = seq(0.6, 0.9, 0.05),
   cutpoint_methods = c("all", "none", "youden", "value_optimising"),
-  fx_nmb_training = get_nmb, fx_nmb_evaluation = get_nmb,
+  fx_nmb_training = get_nmb, 
+  fx_nmb_evaluation = get_nmb,
   event_rate = 0.03,
-  cl = cl,
-  show_progress = TRUE
+  cl = cl
 )
 plot(sim_object)
 ````
-]
 
-.pull-right[
-```{r, echo=FALSE, message=FALSE}
-plot(sim_object)
-```
-]
+---
+<p style="text-align:center;">
+  <img src = "www/sim_screen.jpeg">
+</p>
+---
+
+## Summary
+
+- CDSS should support clinical decisions to be better (&uarr; value care)
+
+--
+
+- Objective of value-based care should to be integrated into clinical prediction model development (cutpoint selection)
+
+--
+
+- CDSS which improve value-based are rare
+
+--
+
+- Prioritise clinical prediction model development
+
+---
+
+## Thank you
+
+<img src="www/twitter-logo.png" height = "4%" width = "4%">
+@Rex_Parsons8
+
+<img src="www/github-logo.png" height = "4%" width = "4%">
+@RWParsons
+
+<img src="www/website-icon.png" height = "4%" width = "4%">
+[rwparsons.github.io/](https://rwparsons.github.io/)
 
 
+<img src="www/shiny_hex.png" height = "4%" width = "4%">
+[aushsi.shinyapps.io/cost-effective-cpms-app/](https://aushsi.shinyapps.io/cost-effective-cpms-app/)
 
+<img src="www/hex.png" height = "4%" width = "4%">
+[rwparsons.github.io/predictNMB/](https://rwparsons.github.io/predictNMB/)
+
+Cost-effective cutpoints [github.com/RWParsons/cost-effective-cpms](https://github.com/RWParsons/cost-effective-cpms)
+
+slides [rwparsons.github.io/PUB358-guest-lecture/](https://rwparsons.github.io/PUB358-guest-lecture/)
 
 
