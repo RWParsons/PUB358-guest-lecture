@@ -2,7 +2,7 @@
 title: "Clinical Decision Support Systems"
 subtitle: "PUB358"
 author: "Rex Parsons"
-date: "`r Sys.Date()`"
+date: "2023-03-22"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -331,9 +331,6 @@ get_nmb()
 
 
 ````r
-library(parallel)
-cl <- makeCluster(detectCores())
-
 sim_object <- screen_simulation_inputs(
   n_sims=500, n_valid=10000, 
   sim_auc = seq(0.6, 0.9, 0.05),
@@ -341,7 +338,7 @@ sim_object <- screen_simulation_inputs(
   fx_nmb_training = get_nmb, 
   fx_nmb_evaluation = get_nmb,
   event_rate = 0.03,
-  cl = cl
+  cl = makeCluster(detectCores())
 )
 plot(sim_object)
 ````
@@ -358,7 +355,7 @@ plot(sim_object)
 
 --
 
-- Objective of value-based care should to be integrated into clinical prediction model development (cutpoint selection)
+- Objective of CDSS (&uarr; value of care) should be integrated into clinical prediction model development (cutpoint selection)
 
 --
 
@@ -366,7 +363,7 @@ plot(sim_object)
 
 --
 
-- Prioritise clinical prediction model development
+- Clinical prediction model development should be prioritised towards high-value areas
 
 ---
 
