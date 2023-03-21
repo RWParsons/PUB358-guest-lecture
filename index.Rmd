@@ -334,7 +334,10 @@ get_nmb()
 sim_object <- screen_simulation_inputs(
   n_sims=500, n_valid=10000, 
   sim_auc = seq(0.6, 0.9, 0.05),
-  cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+  cutpoint_methods = c("all",
+                       "none",
+                       "youden",
+                       "value_optimising"),
   fx_nmb_training = get_nmb, 
   fx_nmb_evaluation = get_nmb,
   event_rate = 0.03,

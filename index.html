@@ -160,8 +160,8 @@ iframe {
 ## How should outputs from a clinical prediction model be shown?
 
 &lt;center&gt;
-<div id="htmlwidget-ebb71dddcda05234ab20" style="width:504px;height:450px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ebb71dddcda05234ab20">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Patient data\"]\n  n2 [label = \"Prediction model\"]\n  n3 [label =  \"???\", color=\"red\"]\n  n4 [label = \"PROFIT\n(better value care)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3 -> n4\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4823777ccb1f994d8966" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4823777ccb1f994d8966">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Patient data\"]\n  n2 [label = \"Prediction model\"]\n  n3 [label =  \"???\", color=\"red\"]\n  n4 [label = \"PROFIT\n(better value care)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3 -> n4\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 &lt;/center&gt;
 
 ---
@@ -209,8 +209,8 @@ iframe {
 ## Cutpoints
 
 &lt;center&gt;
-<div id="htmlwidget-4481adbe45e7670e9ad6" style="width:504px;height:450px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4481adbe45e7670e9ad6">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-ed7043fd129a6bcf13b7" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ed7043fd129a6bcf13b7">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 &lt;/center&gt;
 
 ---
@@ -240,8 +240,8 @@ iframe {
 ## Optimising cutpoints for clinical decisions
 
 &lt;center&gt;
-<div id="htmlwidget-32ddf42ee8b8238c7fd6" style="width:504px;height:450px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-32ddf42ee8b8238c7fd6">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  n4 [label =  \"(Predicted class = 1)\nPatient recieves intervention\"]\n  n5 [label =  \"(Predicted class = 0)\nPatient recieves no intervention\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  n3 -> {n4, n5}\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c972d50cae6676092f1b" style="width:504px;height:450px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c972d50cae6676092f1b">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = TB]\n  \n  node [shape = oval, fontname = Cabin]        \n  n1 [label = \"Predicted probabilities (between 0 and 1)\"]\n  n2 [label = \"Cutpoint\"]\n  n3 [label =  \"Predicted classes (0 or 1)\"]\n  n4 [label =  \"(Predicted class = 1)\nPatient recieves intervention\"]\n  n5 [label =  \"(Predicted class = 0)\nPatient recieves no intervention\"]\n  \n  # edge definitions with the node IDs\n  n1 -> n2 -> n3\n  n3 -> {n4, n5}\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 &lt;/center&gt;
 
 
@@ -304,7 +304,10 @@ iframe {
 sim_object &lt;- screen_simulation_inputs(
   n_sims=500, n_valid=10000, 
   sim_auc = seq(0.6, 0.9, 0.05),
-  cutpoint_methods = c("all", "none", "youden", "value_optimising"),
+  cutpoint_methods = c("all",
+                       "none",
+                       "youden",
+                       "value_optimising"),
   fx_nmb_training = get_nmb, 
   fx_nmb_evaluation = get_nmb,
   event_rate = 0.03,
